@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap');
+@import "tailwindcss";
+*{
+      font-family: "Outfit", sans-serif;
+}
+/* @theme{
+  --color-primary:#4fbf86;
+  --color-primary-dull:#44ae7c;
+} */
+ .primary {
+  background-color: #67c293;
+  
+}
+.primary:hover {
+  background-color: #44ae7c;
+}
+.primaryten{
+  background-color: #4f9671;
+}
+.dull_primary {
+  background-color: #b3d9bf;
+}
+.text-primary {
+  color: #67c293;
+}
+.outline-primary:focus{
+  outline: 2px solid #67c293;
+}
