@@ -2,23 +2,25 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
+import ProductCard from "../components/ProductCard";
 
 const ProductDetails = () => {
 
-    const { products ,navigate, currency , addToCart } = useAppContext()
+    const { Products ,navigate, currency , addToCart } = useAppContext()
+    console.log(Products)
+    console.log(navigate)
     const {id}= useParams()
      const [relatedProducts, setRelatedProducts] = useState([]);
     const [thumbnail, setThumbnail] = useState(null);
-    const product = products.find((item) => item._id === id);
-
-
+    const product = Products?.find((item) => (item._id === id));
+   
     useEffect(()=>{
-        if(products.length > 0 )
-{       let productsCopy =products.slice();
+        if(Products?.length > 0 && product)
+{      let productsCopy =Products.slice();
     productsCopy = productsCopy.filter((item)=>product.category === item.category)
     setRelatedProducts(productsCopy.slice(0,5))
 
-}    },[products])
+}    },[Products])
 
     useEffect(() => {
         
@@ -32,7 +34,7 @@ const ProductDetails = () => {
                 <Link to={"/"}>Home</Link> /
                 <Link  to={"/products"}> Products</Link> /
                 <Link to={ `/products/${product.category.toLowerCase()}`}> {product.category}</Link> /
-                <span className="text-indigo-500"> {product.name}</span>
+                <span className="text-primary"> {product.name}</span>
             </p>
 
             <div className="flex flex-col md:flex-row gap-16 mt-4">
@@ -55,9 +57,7 @@ const ProductDetails = () => {
 
                     <div className="flex items-center gap-0.5 mt-1">
                         {Array(5).fill('').map((_, i) => (
-                            
-                               < img src ={i<4 ? assets.star_icon : assets.star_dull_icon} alt="" className="md:w-4 w-3.5"/>
-                            
+                            <img key={i} src={i < 4 ? assets.star_icon : assets.star_dull_icon} alt="" className="md:w-4 w-3.5"/>
                         ))}
                         <p className="text-base ml-2">(4)</p>
                     </div>
@@ -79,12 +79,28 @@ const ProductDetails = () => {
                         <button onClick={()=>addToCart(product._id)} className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition" >
                             Add to Cart
                         </button>
-                        <button onClick={()=>{addToCart(product._id);navigate("/cart")}} className="w-full py-3.5 cursor-pointer font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition" >
+                        <button onClick={()=>{addToCart(product._id);navigate("/cart")}} className="w-full py-3.5 cursor-pointer font-medium primary text-white hover:bg-indigo-600 transition" >
                             Buy now
                         </button>
                     </div>
                 </div>
             </div>
+            {/* relatedProducts */}
+
+
+            <div className="flex flex-col items-center mt-20">
+                <div className="flex flex-col items-center w-max">
+                    <p className="text-3xl font-medium">Related Products</p>
+                    <div className="w-20 h-0.5 primary rounded-full mt-2"></div>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
+                    {relatedProducts.filter((product)=>product.inStock).map((product,index)=>(
+                        <ProductCard key={index} product ={product}/>
+                    ))}
+                </div>
+                <button  onClick={()=>{navigate('/products')}}className="mx-auto cursor-pointer px-12 my-16 py-2.5 border rounded text-primary transition">See more</button>
+            </div>
+
         </div>
     );
 };
