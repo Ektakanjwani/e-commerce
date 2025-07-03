@@ -29,3 +29,12 @@
 .text-pwhite{
   color: white;
 }
+.border-primary {
+  border: 1px solid #67c293;
+}
+.primarybg{
+  background-color: #cef1da;
+}
+.no-scrollbar::-webkit-scrollbar{
+  display: none;
+}
